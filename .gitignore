@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Data & Model artifacts
+output_dir/
+checkpoints/
+datasets/CIFAR/
+datasets/tiny-imagenet-200/
+datasets/tiny-imagenet-200.zip
+# *.npy
+*.pth
+*.pth.tar
+
+# Training outputs
+distilled_training_results/
+*.log
+training_summary.csv
+training_log.csv
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
