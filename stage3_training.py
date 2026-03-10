@@ -229,8 +229,6 @@ def train_one_epoch(epoch, train_loader, student_model, optimizer, args, teacher
         optimizer.zero_grad()
 
         with torch.no_grad():
-            images = images.cuda(args.gpu, non_blocking=True)
-            labels = labels.cuda(args.gpu, non_blocking=True)
 
             mix_images = mix_aug(images, args)
 
@@ -369,7 +367,7 @@ if __name__ == '__main__':
     parser.add_argument("--dataset", type=str, default="CIFAR10", choices=["CIFAR10", "CIFAR100", "TinyImageNet", "ImageNet"], help="dataset")
     parser.add_argument('--input_size', default=32, type=int, help='Image size')
     parser.add_argument('--teacher-arch', type=str, default='resnet18', help='Teacher architecture')
-    parser.add_argument('--teacher-resume', type=str, help='Path to teacher checkpoint')
+    parser.add_argument('--teacher-resume', type=str, required=True, help='Path to teacher checkpoint')
     parser.add_argument('--student-arch', default='resnet18', help='Student architecture')
     parser.add_argument('--num-classes', default=10, type=int, help='Number of classes')
     parser.add_argument('--epochs', default=500, type=int, help='Total epochs')

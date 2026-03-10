@@ -126,7 +126,7 @@ def main_worker(gpu, ngpus_per_node, args):
             optimizer.load_state_dict(checkpoint["optimizer"])
             print("=> loaded checkpoint '{}' (epoch {})".format(args.resume, checkpoint["epoch"]))
         else:
-            print("=> no checkpoint found at '{}'".format(args.resume))
+            raise FileNotFoundError("=> no checkpoint found at '{}'".format(args.resume))
 
     cudnn.benchmark = True
 
@@ -153,7 +153,7 @@ def main_worker(gpu, ngpus_per_node, args):
             label_set_np = label_set.cpu().numpy()
             np.save(label_set_path, label_set_np)
             if label_set.dim() > 1:
-                label_set = label_set
+                label_set = label_set.squeeze()
 
         all_images = train_dataset.data
         true_coarse_labels = np.array(train_dataset.targets)
@@ -202,6 +202,8 @@ def main_worker(gpu, ngpus_per_node, args):
 
         if os.path.exists(distilled_data_root):
             print(f"Distilled dataset directory already exists, skipping: {distilled_data_root}")
+            if args.distributed:
+                dist.barrier()
             return
 
         os.makedirs(distilled_data_root, exist_ok=True)
@@ -209,6 +211,8 @@ def main_worker(gpu, ngpus_per_node, args):
 
         if len(all_images) != len(embedding):
             print(f"[ERROR] Mismatch! Samples in dataset: {len(all_images)}, Samples in embedding: {len(embedding)}")
+            if args.distributed:
+                dist.barrier()
             return
 
         prototype_indices = []
@@ -278,8 +282,8 @@ def main_worker(gpu, ngpus_per_node, args):
         print(f"\n--- Distillation complete! ---")
         print(f"Distilled dataset with {len(prototype_indices)} images saved in: {distilled_data_root}")
 
-        if args.distributed:
-            dist.barrier()
+    if args.distributed:
+        dist.barrier()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PyTorch Stage2 Selection")
@@ -290,7 +294,7 @@ if __name__ == "__main__":
     parser.add_argument("--dataset", type=str, default="CIFAR10", choices=["CIFAR10", "CIFAR100", "TinyImageNet", "ImageNet"], help="dataset")
     parser.add_argument("--img_size", default=224, type=int, metavar="N", help="img size")
     parser.add_argument("-a", "--arch", metavar="ARCH", default="resnet18", help="model architecture")
-    parser.add_argument("-j", "--workers", default=32, type=int, metavar="N", help="workers")
+    parser.add_argument("-j", "--workers", default=8, type=int, metavar="N", help="workers")
     parser.add_argument("--epochs", default=200, type=int, metavar="N", help="epochs")
     parser.add_argument("--start-epoch", default=0, type=int, metavar="N", help="start epoch")
     parser.add_argument("-b", "--batch-size", default=256, type=int, metavar="N", help="batch size")
@@ -301,7 +305,7 @@ if __name__ == "__main__":
     parser.add_argument("--resume", default="", type=str, metavar="PATH", help="checkpoint path")
     parser.add_argument("--world-size", default=-1, type=int, help="nodes number")
     parser.add_argument("--rank", default=-1, type=int, help="node rank")
-    parser.add_argument("--dist-url", default="tcp://224.66.41.62:23456", type=str, help="dist url")
+    parser.add_argument("--dist-url", default="tcp://localhost:23456", type=str, help="dist url")
     parser.add_argument("--dist-backend", default="nccl", type=str, help="dist backend")
     parser.add_argument("--seed", default=1228, type=int, help="seed")
     parser.add_argument("--gpu", default=None, type=int, help="GPU id")

@@ -46,7 +46,8 @@ class="center">
 
 Setup the conda environment and install the required packages by running the following commands:
 ```bash
-pip install -r requirements.txt
+conda env create -f environment.yml
+conda activate bps
 ```
 
 
@@ -174,6 +175,10 @@ output_dir/<exp_name>/distilled_dataset_ipc<IPC>_k<K>_hybrid_ratio<R>/
 ```
 
 And we also provide the balanced coresets selected in Stage 2 to facilitate quickly reproducing this work.
+
+**Balanced Coresets Download**:
+
+- Google Drive: [Download Here](https://drive.google.com/drive/folders/1XeRGgE4FCmr-Ffn4J8qCoBzttCf1633P?usp=sharing)
 
 
 
