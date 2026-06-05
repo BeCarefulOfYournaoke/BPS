@@ -1,6 +1,6 @@
 # Balanced Dataset Distillation via Modeling Multiple Visual Pattern Distribution
 
-This repo contains PyTorch implementation of **Balanced Dataset Distillation via Modeling Multiple Visual Pattern Distribution (BPS, CVPR 2026)**. BPS produces a pattern-balanced condensed dataset via modeling the multiple visual pattern distribution within each class. This repo contains code for conducting BPS on CIFAR-10/100, Tiny-ImageNet, and ImageNet-1K. For more details please check our paper BPS.
+This repo contains PyTorch implementation of **Balanced Dataset Distillation via Modeling Multiple Visual Pattern Distribution (BPS, CVPR 2026)**. BPS produces a pattern-balanced condensed dataset via modeling the multiple visual pattern distribution within each class. This repo contains code for conducting BPS on CIFAR-10/100, Tiny-ImageNet, and ImageNet-1K. For more details please check our [paper BPS](https://openaccess.thecvf.com/content/CVPR2026/html/Shi_Balanced_Dataset_Distillation_via_Modeling_Multiple_Visual_Pattern_Distribution_CVPR_2026_paper.html).
 
 <p align="center">
 <img src="./imgs/mot.png" width=70%
@@ -187,10 +187,12 @@ And we also provide the balanced coresets selected in Stage 2 to facilitate quic
 If you find this repository helpful for your project, please consider citing:
 
 ```
-@InProceedings{BPS_CVPR2026,
-  title={Balanced Dataset Distillation via Modeling Multiple Visual Pattern Distribution},
-  author={Guanghui Shi, Xuefeng Liang, Qixiang Wen},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2026}
+@InProceedings{Shi_2026_CVPR,
+    author    = {Shi, Guanghui and Liang, Xuefeng and Wen, Qixiang},
+    title     = {Balanced Dataset Distillation via Modeling Multiple Visual Pattern Distribution},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2026},
+    pages     = {19634-19643}
 }
 ```
